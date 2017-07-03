@@ -1,11 +1,18 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
 
 namespace TimeMachine.Models
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(): base ("DefaultConnection", throwIfV1Schema: false)
+        public DbSet<Interaction> Interactions { get; set; }
+
+
+
+
+        public ApplicationDbContext() : base("DefaultConnection", throwIfV1Schema: false)
         {
+
         }
 
         public static ApplicationDbContext Create()
