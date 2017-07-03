@@ -47,7 +47,7 @@ namespace TimeMachine.Controllers
         {
             if (ModelState.IsValid)
             {
-                interaction.DateTime = DateTime.Now;
+                interaction.DateTime = DateTime.Now.ToUniversalTime().AddHours(-4);
 
                 db.Interactions.Add(interaction);
                 await db.SaveChangesAsync();

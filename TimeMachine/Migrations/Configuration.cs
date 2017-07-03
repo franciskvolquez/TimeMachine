@@ -9,6 +9,7 @@ namespace TimeMachine.Migrations
     {
         public Configuration()
         {
+           
             AutomaticMigrationsEnabled = false;
         }
 
