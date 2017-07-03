@@ -1,11 +1,9 @@
 ﻿namespace TimeMachine.Models
 {
 
-    public enum InteractionType
+    public class InteractionType
     {
-        Arrival = 1,
-        Lunch = 2,
-        BackFromLunch = 3,
-        GoingHome = 4
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

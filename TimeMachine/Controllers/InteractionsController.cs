@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using TimeMachine.Models;
+using TimeMachine.ViewModels;
 
 namespace TimeMachine.Controllers
 {
@@ -14,7 +15,11 @@ namespace TimeMachine.Controllers
         // GET: Interactions
         public async Task<ActionResult> Index()
         {
-            return View(await db.Interactions.ToListAsync());
+            var model = await db.Interactions
+                              .Include(i => i.Type)
+                               .ToListAsync();
+
+            return View(model);
         }
 
         // GET: Interactions/Details/5
@@ -33,9 +38,14 @@ namespace TimeMachine.Controllers
         }
 
         // GET: Interactions/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            return View();
+            var model = new CreateInteractionVM
+            {
+                InteractionTypes = await db.InteractionTypes.ToListAsync()
+            };
+
+            return View(model);
         }
 
         // POST: Interactions/Create
