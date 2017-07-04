@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -17,7 +18,8 @@ namespace TimeMachine.Controllers
         {
             var model = await db.Interactions
                               .Include(i => i.Type)
-                               .ToListAsync();
+                              .OrderByDescending(i => i.Id)
+                              .ToListAsync();
 
             return View(model);
         }
