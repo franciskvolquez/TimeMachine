@@ -53,7 +53,7 @@ namespace TimeMachine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Type")] Interaction interaction)
+        public async Task<ActionResult> Create([Bind(Include = "TypeId")] Interaction interaction)
         {
             if (ModelState.IsValid)
             {
@@ -70,6 +70,8 @@ namespace TimeMachine.Controllers
         // GET: Interactions/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -79,7 +81,14 @@ namespace TimeMachine.Controllers
             {
                 return HttpNotFound();
             }
-            return View(interaction);
+
+            var model = new CreateInteractionVM()
+            {
+                Interaction = interaction,
+                InteractionTypes = await db.InteractionTypes.ToListAsync()
+            };
+
+            return View(model);
         }
 
         // POST: Interactions/Edit/5
@@ -87,7 +96,7 @@ namespace TimeMachine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Type,DateTime")] Interaction interaction)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,TypeId,DateTime")] Interaction interaction)
         {
             if (ModelState.IsValid)
             {
