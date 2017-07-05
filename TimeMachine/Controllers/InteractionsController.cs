@@ -13,6 +13,7 @@ namespace TimeMachine.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+
         // GET: Interactions
         public async Task<ActionResult> Index()
         {
