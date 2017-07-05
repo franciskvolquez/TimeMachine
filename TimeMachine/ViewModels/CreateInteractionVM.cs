@@ -7,5 +7,6 @@ namespace TimeMachine.ViewModels
     {
         public Interaction Interaction { get; set; }
         public List<InteractionType> InteractionTypes { get; set; }
+
     }
 }
