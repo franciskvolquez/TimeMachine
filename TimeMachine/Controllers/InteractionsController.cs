@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -19,8 +20,11 @@ namespace TimeMachine.Controllers
         // GET: Interactions
         public async Task<ActionResult> Index()
         {
+            var userId = User.Identity.GetUserId();
+
             var model = await db.Interactions
                               .Include(i => i.Type)
+                              .Where(i => i.UserId == userId)
                               .OrderByDescending(i => i.Id)
                               .ToListAsync();
 
@@ -30,11 +34,17 @@ namespace TimeMachine.Controllers
         // GET: Interactions/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Interaction interaction = await db.Interactions.FindAsync(id);
+
+            var userId = User.Identity.GetUserId();
+
+            Interaction interaction = await db.Interactions
+                                                .Where(i => i.Id == id && i.UserId == userId)
+                                                .SingleOrDefaultAsync();
             if (interaction == null)
             {
                 return HttpNotFound();
@@ -60,9 +70,11 @@ namespace TimeMachine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "TypeId")] Interaction interaction)
         {
+
             if (ModelState.IsValid)
             {
                 interaction.DateTime = DateTime.Now.ToUniversalTime().AddHours(-4);
+                interaction.UserId = User.Identity.GetUserId();
 
                 db.Interactions.Add(interaction);
                 await db.SaveChangesAsync();
@@ -75,13 +87,16 @@ namespace TimeMachine.Controllers
         // GET: Interactions/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
-
-
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Interaction interaction = await db.Interactions.FindAsync(id);
+
+            var userId = User.Identity.GetUserId();
+
+            Interaction interaction = await db.Interactions
+                                                .Where(i => i.Id == id && i.UserId == userId)
+                                                .SingleOrDefaultAsync();
             if (interaction == null)
             {
                 return HttpNotFound();
