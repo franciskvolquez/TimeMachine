@@ -6,7 +6,7 @@ namespace TimeMachine.Controllers
     {
         public ActionResult Index()
         {
-            return RedirectToAction("Index", "Interactions");
+            return RedirectToAction("Create", "Interactions");
         }
 
         public ActionResult About()
