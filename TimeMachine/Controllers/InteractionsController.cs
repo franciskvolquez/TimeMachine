@@ -120,7 +120,22 @@ namespace TimeMachine.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(interaction).State = EntityState.Modified;
+                var userId = User.Identity.GetUserId();
+
+                var inter = await db.Interactions
+                                               .Where(i => i.Id == interaction.Id)
+                                               .SingleOrDefaultAsync();
+
+                if (inter == null)
+                    return HttpNotFound();
+
+                if (inter.UserId != userId)
+                    return new HttpUnauthorizedResult();
+
+                inter.DateTime = interaction.DateTime;
+                inter.TypeId = inter.TypeId;
+
+                //db.Entry(interaction).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
