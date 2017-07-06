@@ -43,6 +43,7 @@ namespace TimeMachine.Controllers
             var userId = User.Identity.GetUserId();
 
             Interaction interaction = await db.Interactions
+                                                .Include(i => i.Type)
                                                 .Where(i => i.Id == id && i.UserId == userId)
                                                 .SingleOrDefaultAsync();
             if (interaction == null)
