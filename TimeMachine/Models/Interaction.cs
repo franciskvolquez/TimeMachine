@@ -10,9 +10,10 @@ namespace TimeMachine.Models
         [DisplayName("Interaction Type")]
         public int TypeId { get; set; }
         public DateTime DateTime { get; set; }
+        public string UserId { get; set; }
 
         //Navigation properties
         public InteractionType Type { get; set; }
-
+        public ApplicationUser User { get; set; }
     }
 }

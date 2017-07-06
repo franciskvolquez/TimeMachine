@@ -9,6 +9,8 @@ using TimeMachine.ViewModels;
 
 namespace TimeMachine.Controllers
 {
+
+    [Authorize]
     public class InteractionsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
