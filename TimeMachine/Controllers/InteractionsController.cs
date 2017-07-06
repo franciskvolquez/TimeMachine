@@ -69,7 +69,7 @@ namespace TimeMachine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "TypeId")] Interaction interaction)
+        public async Task<ActionResult> Create([Bind(Include = "TypeId, Comment")] Interaction interaction)
         {
 
             if (ModelState.IsValid)
@@ -136,7 +136,7 @@ namespace TimeMachine.Controllers
                 inter.DateTime = interaction.DateTime;
                 inter.TypeId = inter.TypeId;
 
-                //db.Entry(interaction).State = EntityState.Modified;
+
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }

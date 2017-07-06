@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace TimeMachine.Models
 {
@@ -11,6 +12,9 @@ namespace TimeMachine.Models
         public int TypeId { get; set; }
         public DateTime DateTime { get; set; }
         public string UserId { get; set; }
+
+        [MaxLength(500)]
+        public string Comment { get; set; }
 
         //Navigation properties
         public InteractionType Type { get; set; }
