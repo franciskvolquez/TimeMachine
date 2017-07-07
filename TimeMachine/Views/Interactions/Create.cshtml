@@ -4,7 +4,8 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>Crear entrada</h2>
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -13,7 +14,7 @@
         <div class="panel-body">
                 <div class="form-group " > 
                     @Html.LabelFor(model => model.Interaction.Comment)
-                    @Html.TextAreaFor(model => model.Interaction.Comment, new { @class = "form-control" })
+                    @Html.TextAreaFor(model => model.Interaction.Comment, new { @class = "form-control", placeholder = "Opcional" })
                 </div>
             </div>
         </div>
@@ -30,7 +31,7 @@
 
 
         <div>
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Volver al registro", "Index")
         </div>
 
         @section Scripts {
