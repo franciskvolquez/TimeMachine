@@ -134,7 +134,7 @@ namespace TimeMachine.Controllers
                     return new HttpUnauthorizedResult();
 
                 inter.DateTime = interaction.DateTime;
-                inter.TypeId = inter.TypeId;
+                inter.TypeId = interaction.TypeId;
 
 
                 await db.SaveChangesAsync();
