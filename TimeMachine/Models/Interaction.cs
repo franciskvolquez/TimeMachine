@@ -8,12 +8,16 @@ namespace TimeMachine.Models
     {
         public int Id { get; set; }
 
-        [DisplayName("Interaction Type")]
+        [DisplayName("Tipo de Interacción")]
         public int TypeId { get; set; }
+
+        [DisplayName("Fecha")]
         public DateTime DateTime { get; set; }
+
         public string UserId { get; set; }
 
         [MaxLength(500)]
+        [DisplayName("Comentario")]
         public string Comment { get; set; }
 
         //Navigation properties
