@@ -6,10 +6,18 @@
 
 <h2>Crear entrada</h2>
 
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-warning">
+        <span>@ViewBag.Message</span>
+    </div>
+}
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Interaction.TypeId, new { id = "TypeId" })
+
     <div class="panel panel-default col-md-12 text-center">
         <div class="panel-body">
                 <div class="form-group " > 

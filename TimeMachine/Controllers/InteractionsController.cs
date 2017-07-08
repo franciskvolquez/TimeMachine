@@ -74,15 +74,42 @@ namespace TimeMachine.Controllers
 
             if (ModelState.IsValid)
             {
+                var userId = User.Identity.GetUserId();
+                var type = db.InteractionTypes.Where(it => it.Id == interaction.TypeId).SingleOrDefault();
+
+                var lastInteraction = db.Interactions
+                    .Include(i => i.Type)
+                    .Where(i => i.UserId == userId)
+                    .OrderByDescending(i => i.DateTime)
+                    .FirstOrDefault();
+
+                if (lastInteraction != null)
+                {
+                    if (lastInteraction.Type.Action == type.Action)
+                    {
+                        ViewBag.Message = "No puede registrar dos salidas o dos entradas seguidas.";
+
+                        return View(new CreateInteractionVM { Interaction = interaction, InteractionTypes = await db.InteractionTypes.ToListAsync() });
+                    }
+                }
+                else
+                {
+                    if (type.Action == InteractionTypeActions.Out)
+                    {
+                        ViewBag.Message = "Debe registar una entrada primero.";
+                        return View(new CreateInteractionVM { Interaction = interaction, InteractionTypes = await db.InteractionTypes.ToListAsync() });
+                    }
+                }
+
                 interaction.DateTime = DateTime.Now.ToUniversalTime().AddHours(-4);
-                interaction.UserId = User.Identity.GetUserId();
+                interaction.UserId = userId;
 
                 db.Interactions.Add(interaction);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(interaction);
+            return View(new CreateInteractionVM() { Interaction = interaction, InteractionTypes = await db.InteractionTypes.ToListAsync() });
         }
 
         // GET: Interactions/Edit/5
